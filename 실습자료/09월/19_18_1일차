@@ -1,0 +1,119 @@
+# 0918 교육 정리
+==============
+## OCI : 오라클 클라우드 인프라스트럭쳐
+---
+## 테넌시 : 
+> * OCI 내 최상위 구성 파티션
+> * OCI 내에서 클라우드 리소스를 생성, 구성 및 관리할 수 있는 격리된 파티션
+---
+## Compartment : 
+> * OCI에서 자원(VCN, VM, Database, Storage 등)을 만들 때, Compartment 는 OCI 자원을 논리적으로 묶는 역할
+> * Compartment 로 자원을 묶고 이 단위로 자원 모니터링, 과금 및 권한 설정
+---
+## CSP : Cloud Service Provider
+> * 클라우드 서비스 제공 업체
+> * OCI, AWS, Azure, GCP
+## MSP : Managed Service Provider
+> * Managed Service Provider
+> * 클라우드 인프라 관리 서비스 제공 업체
+> * CSP와 고객을 연결 하는 역할
+> * 클라우드 구축과 전환, 운영을 설계하고 운영해주는 서비스를 제공
+---
+# OCI 사용자 관리
+> * Tenancy를 생성하면 사용자 ID 두개가 자동 생성됨
+>   > * oracleidentitycloudservice~~@gmail.com
+>   > * ~~@gmail.com
+> * IDCS : Identity Cloud Service (IAM으로 통합 됨)
+> * IAM : Identity Access Management
+> * https://team-okitoki.github.io/getting-started/oci-iam-identity-domain/
+---
+## VCN : 가상 클라우드 네트워크
+> * 사용자 정의 가능한 전용 클라우드 네트워크
+> * 특정 리전에 종속
+> * (AWS : Virtual Private Cloud, OCI : Virtual Cloud Network, Azure : Virtual Network, GCP : VPC)
+> * 고유한 IP 주소 할당, 서브넷 생성, 경로 테이블 생성, 상태 저장 방화벽
+> * 단일 테넌시는 여러 VCN 가질 수 있음
+> * 구성 요소
+>   > * Subnet
+>   > * Route Table
+>   > * Security List
+>   > * Internet Gateway
+>   > * NAT Gateway
+>   > * Service Gateway
+>   > * Dynamic Routing Gatewary(DRG)
+>   > * Load Balancer
+>   > * Local/Remote Peering
+> * https://yooloo.tistory.com/10
+---
+## 인스턴스 :
+> * 사용자가 DB에 접근하여 호출/실행을 통해 트랜잭션을 처리할 수 있는 프로세스와 메모리 영역.
+> * SGA(시스템 글로벌 영역) + Process 가 합쳐진 것으로 실제 작업이 이루어지는 공간
+> * 각각의 인스턴스는 고유한 SID, Service Name 을 가짐
+>   > * SID : 환경변수, listener.ora. 등 DB 서버에서 구분하며 필요한 정보
+>   > * Service Name: 클라이언트에서 접속하기 위한 구분 정보
+---
+## 마이그레이션 :
+> 기존 인프라(온프레미스)를 클라우드 환경으로 이동하는 것을 말함
+---
+## 쿠버네티스 :
+> * 컨테이너는  VM과 유사하지만 격리 속성을 안화하여 애플리케이션 간에 운영체제를 공유함
+> * 상대적으로 가벼움
+> * 컨테이너 내에 자체 파일 시스템, CPU 점유율, 메모리, 프로세스 공강 등이 존재
+> * 기본 인프라와의 종속성을 끊었기 때문에, 클라우드나 OS 배포본에 모두 이식 가능
+> * 컨테이너의 장점
+>   > * 기민한 애플리케이션 생성과 배포
+>   > * 지속적인 개발, 통합 및 배포
+>   > * 개발과 운영의 관심사 분리
+>   > * 가시성
+>   > * 개발, 테스팅 및 운영 환경에 걸친 일관성
+>   > * 클라우드 및 OS 배포판 간 이식성
+>   > * 애플리케이션 중심 관리
+>   > * 느슨하게 커플되고, 분산되고, 유연하며 자유로운 마이크로서비스
+> * https://kubernetes.io/ko/docs/concepts/overview/
+---
+## Virtual Machine(VM) VS Docker
+> ### VM
+>   > * Host Os -> Hypervisor -> Guest OS -> Bins/Libs -> App
+>   > * 하이퍼바이저란?
+>   >   > * 단일 물리적 머신에서 여러 가잣 머신을 실행하는데 사용할 수 있는 소프트웨어
+>   >   > * CPU, 메모리 등과 같은 기본 물리적 컴퓨팅 리소스를 개별 가상 머신에 할당
+>   >   > * 물리적 IT 인프라의 최적 사용을 지원
+>   >   > * 하드웨어 독립성, 효율성, 확장성, 이동성 확보 가느어
+>   > * 논리적으로 구분된 공간에서 독립된 가상의 하드웨을 할당 받은 VM 들을 서로에게 어떠한 영향도 미치지 못함(Error 등)
+> ### Docker
+>   > * OS -> Docker Engine -> Bins/Libs -> App
+>   > * 개별 컨테이너 내에 게스트 OS 없음
+>   > * 도커의 컨테이너는 호스트 OS 의 커널을 공유함 (커널 : 하드웨어 자원 관리, 하드웨어 - 프로세스 간 인터페이스 역할)
+>   > * 하나의 커널을 공유하기에 호스트 시스템에서 컨테이너내부의 프로세스 볼 수 있
+---
+## 리눅스 :
+> * 오픈소스 OS
+> * UNIX 기반
+> * 다양한 배포판 존재(배포판 안에 패키지 리눅스가 패키지 처리 되어 있음) => 레드햇, 우분투
+> * 초기에는 개인용 컴퓨터를 위해 만들어졌으나 다양한 플랫폼으로 이식됨(안드로이드, 크롬OS, 서버용 컴퓨터, 임베디드 시스템 등)
+---
+## 윈도우 :
+---
+## 오라클 데이터베이스 :
+---
+## MFA : 
+> * Multi-Factor Authentication = 다중 인증
+> * 사용 이유
+>   > * 하나의 암호로는 디지털 보안 측면에서 부족할 수 있음
+>   > * 암호가 도난당한 경우에 타인의 액세스를 방지하는 추가 보안 계층 역할
+> * 사용 이점
+>   > * 보안 위험 감소
+>   > * 디지털 이니셔티브 수행 = 온라인 상호 작용과 거래를 안전하게 수행 가능하도록 함
+>   > * 보안 대응 향상
+> * https://aws.amazon.com/ko/what-is/mfa/
+---
+## 크론탭 : 리눅스 버전의 윈도우 스케줄러
+> * 특정 시간에 특정 작업을 하도록 하는 기능
+> * 명령어 모음
+>   > * $ crontab -e : 크론탭 설정 시작
+>   >   > * *****[원하는 명령어]
+>   >   >   > * ***** => 분, 시간, 일, 월, 요일(0~7)(0, 7은 일요일)
+>   >   > * :wq 로 적용
+>   > * #으로 주석 가
+>   > * $ crontab -l : 크론탭 내용 출력
+>   > * $ crontab -r : 크론탭 지우기
